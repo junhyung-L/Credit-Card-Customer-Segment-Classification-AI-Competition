@@ -138,7 +138,7 @@
 
 ## 모델 성능 비교 (내부 검증 F1)
 
-![Model Performance](./model_f1_comparison.png)
+![Model Performance](images/model_f1_comparison.png)
 
 ---
 
