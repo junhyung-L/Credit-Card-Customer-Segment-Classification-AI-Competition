@@ -101,5 +101,7 @@ pip install -r requirements.txt
 └── README.md                   # Project documentation
 ```
 
----
-*This repository has been refactored and documented by an elite data science career consultant to meet top-tier industry standards.*
+## 👥 Contributors
+- **Junhyung L.** (Project Lead / Data Scientist)
+- Refactored and polished to meet professional software engineering standards for the Data Analyst Portfolio. Note: Statistical findings and feature importances are based on the actual competition report results.
+
