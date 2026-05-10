@@ -15,10 +15,21 @@ The project handles a massive, high-dimensional dataset with **2.4 million rows*
   - Class B: 144 (Extreme Minority)
   - Addressed via strategic oversampling of minority classes and undersampling of majority classes.
 - **Big Data Handling**: Leveraged **Dask DataFrame** for efficient processing of data exceeding memory limits.
-- **Feature Engineering & Cleaning**:
-  - Removed 108 constant columns that provided no predictive value.
-  - **Missing Value Strategy**: Imputed values based on correlation patterns rather than simple mean/mode replacement.
-  - Created binary indicators for missing patterns, which served as strong predictive signals.
+
+### 🛠️ Advanced Imputation Strategy (고급 결측치 처리 원리)
+Instead of simple mean/mode imputation, a hybrid approach of domain-driven logic and machine learning was used:
+
+1. **Rule-Based Logical Imputation (도메인 논리 기반 대체)**:
+   - **Telecom Code (`가입통신회사코드`)**: Filled with 'Not Registered' (`미가입`) if the customer has no active card or zero usage.
+   - **Workplace Province (`직장시도명`)**: Filled with the residential province (`거주시도명`) based on the high probability of working in the same area.
+   - **1st Priority Credit/Check (`_1순위신용체크구분`)**: Classified into 'Unused', 'Credit', or 'Check' based on interactive usage logic.
+
+2. **Predictive Machine Learning Imputation (머신러닝 기반 예측 대체)**:
+   - **Target Variables**: `혜택수혜율_R3M`, `혜택수혜율_B0M` (Benefit Usage Rate - high missing rate but critical features).
+   - **Predictor Features**: Used 8 highly correlated variables including usage amounts (`이용금액_R3M_신용/체크`), valid card counts, age, and gender.
+   - **Method**: Trained a **Multi-Output RandomForest Regressor** on non-missing data to precisely predict and fill the missing values.
+
+---
 
 ## 🤖 2. Modeling & Evaluation (모델링 및 평가)
 
@@ -36,8 +47,12 @@ The project explored both traditional tree-based ensembles and cutting-edge tabu
 
 *   **Final Competition Rank**: **58th Place (Top 25%)** with a Private Score of 0.6251.
 
+### 📈 Model Performance Comparison
+![Model F1 Score Comparison](images/model_f1_comparison.png)
+*Figure: Comparison of Weighted F1-Scores across different models (CatBoost, TabNet, Stacking, etc.)*
+
 ### Insights
-- **Tree Models > Deep Learning**: For this tabular dataset, gradient boosting models (CatBoost, XGBoost) outperformed complex deep learning architectures like TabNet and FT-Transformer in both speed and accuracy.
+- **Tree Models > Deep Learning**: For this tabular dataset, gradient boosting models (CatBoost, XGBoost) outperformed complex deep learning architectures like TabNet in both speed and accuracy.
 - **Missing Data as a Feature**: Encoding the *presence* of missing values provided a significant lift in model performance, indicating that the missingness itself was informative of customer behavior.
 
 ## 🏁 3. Future Work (향후 과제)
