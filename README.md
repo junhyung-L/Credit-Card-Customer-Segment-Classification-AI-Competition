@@ -81,4 +81,25 @@ pip install -r requirements.txt
 - **Cost-Sensitive Learning**: Implement custom loss functions to penalize misclassification of the rare but high-value segments (Classes A and B).
 
 ---
+
+## 📁 Repository Structure
+```text
+├── notebooks/                  # Exploratory and experimental notebooks
+│   ├── missing_mechanism_analysis.ipynb
+│   ├── tabnet_experiments.ipynb
+│   └── train_eval_20k.ipynb
+├── src/                        # Extracted Python scripts from notebooks
+│   ├── baseline_xgb.py
+│   ├── missing_mechanism_analysis.py
+│   ├── preprocess_missing_features.py
+│   ├── preprocess_overview.py
+│   ├── scaling_log_standard.py
+│   ├── tabnet_experiments.py
+│   └── train_eval_20k.py
+├── reports/                    # Experiment summaries and reports
+│   └── 실험요약.md
+└── README.md                   # Project documentation
+```
+
+---
 *This repository has been refactored and documented by an elite data science career consultant to meet top-tier industry standards.*
