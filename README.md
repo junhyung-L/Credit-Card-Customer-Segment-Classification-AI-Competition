@@ -3,12 +3,18 @@
 ## 🎯 Executive Summary
 In the hyper-competitive financial sector, understanding customer behavior through precise segmentation is the key to maximizing marketing ROI and minimizing churn. This project delivers a high-performance classification pipeline to segment **2.4 million credit card customers** using a high-dimensional dataset of **857 features**.
 
-This project is not just about hyperparameter tuning; it is a masterclass in handling the core challenges of real-world data science:
-1.  **Big Data Scale**: Processing 2.4M rows efficiently using **Dask**.
-2.  **Extreme Class Imbalance**: Segmenting a target where the minority class represents less than 0.01% of the data.
-3.  **Complex Missing Patterns**: Moving beyond simple mean imputation to **predictive machine learning imputation**.
+## 🚀 Executive Summary (TL;DR)
+- **The Problem**: Segmenting 2.4M credit card customers with 857 features, suffering from extreme class imbalance (minority class < 0.01%) and complex missing patterns.
+- **The Solution**: Built a robust pipeline using **Dask** for big data scale, predictive ML imputation for missing data, and a **Stacking Ensemble** (CatBoost + LogReg + MLP).
+- **The Result**: Achieved **Top 25% (58th Place)** in the competition with a validation F1-score of **0.8936**.
 
-Achieved **Top 25% (58th Place)** in the competition with a robust **Stacking Ensemble** that bridges the gap between tree-based power and deep learning representation.
+## 🛠 Tech Stack
+![Python](https://img.shields.io/badge/python-3670A0?style=for-the-badge&logo=python&logoColor=ffdd54)
+![Pandas](https://img.shields.io/badge/pandas-%23150458.svg?style=for-the-badge&logo=pandas&logoColor=white)
+![Scikit-Learn](https://img.shields.io/badge/scikit--learn-%23F7931E.svg?style=for-the-badge&logo=scikit-learn&logoColor=white)
+![CatBoost](https://img.shields.io/badge/CatBoost-FFCC00?style=for-the-badge&logo=catboost&logoColor=black)
+![XGBoost](https://img.shields.io/badge/XGBoost-EE4C2C?style=for-the-badge&logo=xgboost&logoColor=white)
+![Dask](https://img.shields.io/badge/Dask-F7931E?style=for-the-badge&logo=dask&logoColor=white)
 
 ---
 
