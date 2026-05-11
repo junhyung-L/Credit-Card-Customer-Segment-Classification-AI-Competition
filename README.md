@@ -108,7 +108,7 @@ pip install -r requirements.txt
 ```
 
 ## 👥 Contributors
-- **Junhyung L.** (Project Lead / Data Scientist)
+- **Junhyung L.** (Project Lead)
 
 ---
 *Refactored and polished to meet professional software engineering standards for the [Data Analyst Portfolio](https://github.com/junhyung-L).*
