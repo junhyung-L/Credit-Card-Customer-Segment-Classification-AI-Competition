@@ -1,24 +1,23 @@
-# 💳 Credit Card Customer Segment Classification: Scale, Imbalance & Business Impact
+# Credit Card Customer Segment Classification: High-Dimensional Big Data Pipeline
+
+[![Python 3.12](https://img.shields.io/badge/python-3.12-blue.svg)](https://www.python.org/downloads/)
+[![CatBoost](https://img.shields.io/badge/CatBoost-FFCC00?style=flat&logo=catboost&logoColor=black)](https://catboost.ai/)
+[![Status](https://img.shields.io/badge/Status-Completed-success.svg)]()
 
 ## 🎯 Executive Summary
 In the hyper-competitive financial sector, understanding customer behavior through precise segmentation is the key to maximizing marketing ROI and minimizing churn. This project delivers a high-performance classification pipeline to segment **2.4 million credit card customers** using a high-dimensional dataset of **857 features**.
 
-## 🚀 Executive Summary (TL;DR)
 - **The Problem**: Segmenting 2.4M credit card customers with 857 features, suffering from extreme class imbalance (minority class < 0.01%) and complex missing patterns.
 - **The Solution**: Built a robust pipeline using **Dask** for big data scale, predictive ML imputation for missing data, and a **Stacking Ensemble** (CatBoost + LogReg + MLP).
 - **The Result**: Achieved **Top 25% (58th Place)** in the competition with a validation F1-score of **0.8936**.
 
 ## 🛠 Tech Stack
-![Python](https://img.shields.io/badge/python-3670A0?style=for-the-badge&logo=python&logoColor=ffdd54)
-![Pandas](https://img.shields.io/badge/pandas-%23150458.svg?style=for-the-badge&logo=pandas&logoColor=white)
-![Scikit-Learn](https://img.shields.io/badge/scikit--learn-%23F7931E.svg?style=for-the-badge&logo=scikit-learn&logoColor=white)
-![CatBoost](https://img.shields.io/badge/CatBoost-FFCC00?style=for-the-badge&logo=catboost&logoColor=black)
-![XGBoost](https://img.shields.io/badge/XGBoost-EE4C2C?style=for-the-badge&logo=xgboost&logoColor=white)
-![Dask](https://img.shields.io/badge/Dask-F7931E?style=for-the-badge&logo=dask&logoColor=white)
+- **Big Data Scale**: Dask (Handling 2.4M rows efficiently)
+- **Modeling**: CatBoost, Stacking Ensemble (CatBoost + LogReg + MLP)
+- **Pre-processing**: Multi-Output Random Forest Imputation
+- **Data Processing**: Pandas, NumPy
 
 ---
-
-## 💡 1. Business & Data Understanding (비즈니스 및 데이터 이해)
 
 ### The Business Problem
 A financial institution wants to identify customer segments (A to E) to deploy targeted marketing campaigns. Misclassification leads to wasted marketing budget or, worse, customer annoyance. The goal is to maximize the F1-score to ensure balanced precision and recall across all segments.
@@ -32,8 +31,6 @@ A financial institution wants to identify customer segments (A to E) to deploy t
   - *Strategy*: Oversampling minority classes (A, B) and controlled undersampling of majority classes (C, D, E) to train a balanced model.
 
 ---
-
-## 📊 2. Advanced Preprocessing & Feature Engineering (고급 전처리 및 피처 엔지니어링)
 
 Instead of applying blind automation, this project implements a **domain-driven and predictive preprocessing pipeline**:
 
@@ -49,12 +46,9 @@ Key features like `혜택수혜율_R3M` (Benefit Usage Rate) had high missing ra
 
 ---
 
-## 🤖 3. Modeling: Bridging Trees and Deep Learning (모델링 전략)
-
 We benchmarked state-of-the-art tabular models to find the optimal balance between training speed and predictive power.
 
 ### Experiments & Results
-
 | Model | Strategy | F1-Score | Key Insight |
 | :--- | :--- | :---: | :--- |
 | **XGBoost** | Baseline | 0.607 | Fast but struggled with extreme imbalance. |
@@ -67,8 +61,6 @@ We benchmarked state-of-the-art tabular models to find the optimal balance betwe
 *Figure: Comparison of Weighted F1-Scores across different models.*
 
 ---
-
-## 🚀 4. How to Run & Reproduce (재현 방법)
 
 ### Prerequisites
 ```bash
@@ -113,5 +105,4 @@ pip install -r requirements.txt
 ---
 *Refactored and polished to meet professional software engineering standards for the [Data Analyst Portfolio](https://github.com/junhyung-L/Resume/blob/main/Portfolio/README.md).*
 *Note: Statistical findings and feature importances are based on the actual competition report results.*
-
 
