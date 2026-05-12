@@ -34,24 +34,28 @@ A financial institution wants to identify customer segments (A to E) to deploy t
 
 ```mermaid
 graph TD
-    A[Raw Data <br> 2.4M Rows, 857 Features] --> B[Dask Big Data Engine]
-    B --> C[Predictive Imputation <br> Multi-Output RF]
-    B --> D[Domain Rule-Based Filling]
-    
-    C --> E[Unified Feature Space]
-    D --> E
-    
-    E --> F[Sampling Strategy <br> Oversample A,B / Undersample C,D,E]
-    
-    F --> G[Stacking Ensemble]
-    
-    G --> H[CatBoost]
-    G --> I[LogReg]
-    G --> J[MLP]
-    
-    H --> K[Final F1: 0.8936]
-    I --> K
-    J --> K
+    subgraph Data_Scale [1. Big Data Handling]
+        A[Raw Data <br> 2.4M Rows / 857 Features] --> B[Dask Big Data Engine <br> 분산 병렬 처리]
+    end
+
+    subgraph Preprocessing_Eng [2. Predictive Imputation & Engineering]
+        B --> C[Predictive Imputation <br> Multi-Output RF]
+        B --> D[Domain Rule-Based Filling <br> 도메인 규칙 적용]
+        C & D --> E[Advanced Sampling <br> 데이터 불균형 해소]
+    end
+
+    subgraph Modeling_Stage [3. Ensemble Strategy]
+        E --> F[Stacking Ensemble <br> 모델 결합]
+        F --> G[CatBoost]
+        F --> H[Logistic Regression]
+        F --> I[MLP]
+    end
+
+    G & H & I --> J[Final Classification <br> 고객 세그먼트 도출]
+
+    style Data_Scale fill:#f9f,stroke:#333,stroke-width:2px
+    style Preprocessing_Eng fill:#bbf,stroke:#333,stroke-width:2px
+    style Modeling_Stage fill:#bfb,stroke:#333,stroke-width:2px
 ```
 
 ---
