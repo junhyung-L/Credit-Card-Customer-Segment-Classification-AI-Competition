@@ -88,6 +88,16 @@ We benchmarked state-of-the-art tabular models to find the optimal balance betwe
 ![Model F1 Score Comparison](images/model_f1_comparison.png)
 *Figure: Comparison of Weighted F1-Scores across different models.*
 
+### 🔍 Key Feature Importance & Domain Insight (주요 피처 중요도)
+To understand *why* customers are classified into specific segments, we analyzed the top features from the CatBoost model:
+1. **혜택수혜율_R3M (Benefit Usage Rate)**: The most critical feature. Customers with high usage rates were mostly classified into active spending segments.
+2. **총이용금액 (Total Spending Amount)**: Directly separates high-value customers from dormant ones.
+3. **가입기간 (Account Age)**: Older accounts showed more stable and predictable spending patterns.
+4. **연령 (Age)**: Correlated with specific lifestyle segments and credit tiers.
+5. **거주시도명 (Residence Region)**: Captured regional economic disparities and localized spending behaviors.
+
+*Insight*: This proves that the model is not just a black box but aligns perfectly with actual credit card marketing strategies (e.g., targeting high benefit users with premium cards).
+
 ---
 
 ### Prerequisites
