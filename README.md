@@ -32,7 +32,7 @@ A financial institution wants to identify customer segments (A to E) to deploy t
 
 ---
 
-> ```mermaid
+```mermaid
 graph TD
     A[Raw Data <br> 2.4M Rows, 857 Features] --> B[Dask Big Data Engine]
     B --> C[Predictive Imputation <br> Multi-Output RF]
