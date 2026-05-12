@@ -19,61 +19,36 @@ In the hyper-competitive financial sector, understanding customer behavior throu
 
 ---
 
-## 🔬 1. Problem Definition
-In the hyper-competitive financial sector, understanding customer behavior through precise segmentation is the key to maximizing marketing ROI and minimizing churn.
-- **The Challenge**: Segmenting 2.4 million credit card customers using a high-dimensional dataset of 857 features.
-- **The Complications**: Extreme class imbalance (minority class B has only 144 samples out of 2.4M) and complex missing patterns across hundreds of variables.
-- **Objective**: To build a high-performance classification pipeline that accurately classifies customers into 5 segments while handling big data scale and missing values.
+### The Business Problem
+A financial institution wants to identify customer segments (A to E) to deploy targeted marketing campaigns. Misclassification leads to wasted marketing budget or, worse, customer annoyance. The goal is to maximize the F1-score to ensure balanced precision and recall across all segments.
 
----
-
-## 🛠️ 2. System Architecture
-To handle the scale and complexity of the dataset, we developed a distributed pipeline using Dask and a stacked model architecture. This ensures that the massive data can be processed on a single machine efficiently.
-
-```mermaid
-graph TD
-    A[Raw Data <br> 2.4M Rows, 857 Features] --> B[Dask Big Data Engine]
-    B --> C[Predictive Imputation <br> Multi-Output RF]
-    B --> D[Domain Rule-Based Filling]
-    
-    C --> E[Unified Feature Space]
-    D --> E
-    
-    E --> F[Sampling Strategy <br> Oversample A,B / Undersample C,D,E]
-    
-    F --> G[Stacking Ensemble]
-    
-    G --> H[CatBoost]
-    G --> I[LogReg]
-    G --> J[MLP]
-    
-    H --> K[Final F1: 0.8936]
-    I --> K
-    J --> K
-```
-
----
-
-## 📊 3. Data Challenges & Preprocessing
-The primary challenge in this project was not the modeling, but the data itself. We faced extreme volume and imbalance.
+### The Data Challenge
 - **Volume**: 2,400,000 rows × 857 columns.
+- **Sparsity**: High rate of missing values requiring domain-specific handling.
 - **Extreme Imbalance**: 
   - Class E (Majority): ~1.9M
   - Class B (Extreme Minority): 144
   - *Strategy*: Oversampling minority classes (A, B) and controlled undersampling of majority classes (C, D, E) to train a balanced model.
 
-### 🧠 Advanced Missing Data Handling
-Instead of applying blind automation, this project implements a **domain-driven and predictive preprocessing pipeline** based on a rigorous analysis of missing mechanisms.
-- **Missing Mechanism Analysis**: Conducted Chi-Square tests to classify missingness. Discovered that missingness in key variables was significantly related to the target (`Segment`), proving that the 'fact of missingness' itself carried predictive information.
-- **Predictive Imputation**: For features with high missing rates like Benefit Usage Rate, trained a **Multi-Output RandomForest Regressor** on non-missing data to predict missing values based on customer age, gender, and current usage amounts.
-- **Conditional Imputation**: For usage-related variables, filled with 'Unused' (미사용) if the corresponding usage amount was 0, and 'Unknown' otherwise, preserving domain logic.
+---
+
+Instead of applying blind automation, this project implements a **domain-driven and predictive preprocessing pipeline**:
+
+### 🧠 Predictive Imputation (머신러닝 기반 예측 대체)
+Key features like `혜택수혜율_R3M` (Benefit Usage Rate) had high missing rates. Instead of filling them with static zeros or means:
+- We trained a **Multi-Output RandomForest Regressor** on the non-missing data.
+- Predicted the missing values based on customer age, gender, and current usage amounts.
+- *Impact*: Preserved the variance and correlation structure of the data, leading to a more realistic feature space.
+
+### 🛠️ Rule-Based Domain Logic
+- **Telecom & Residence Sync**: Validated `가입통신회사코드` and filled missing `직장시도명` using `거주시도명` based on geographical probability.
 - **Missingness as a Feature**: Created binary flags for missing patterns. The fact that a variable is missing is often a strong behavioral signal in credit data.
 
 ---
 
-## 🤖 4. Modeling & Results
 We benchmarked state-of-the-art tabular models to find the optimal balance between training speed and predictive power.
 
+### Experiments & Results
 | Model | Strategy | F1-Score | Key Insight |
 | :--- | :--- | :---: | :--- |
 | **XGBoost** | Baseline | 0.607 | Fast but struggled with extreme imbalance. |
@@ -81,31 +56,36 @@ We benchmarked state-of-the-art tabular models to find the optimal balance betwe
 | **TabNet** | Deep Learning | 0.8285 | Captured complex non-linearities but slower than trees. |
 | **Stacking Ensemble** | CatBoost + LogReg + MLP | **0.8936 (Val)** | **Final Choice**. Combined the best of both worlds. |
 
+### 📈 Model Performance Comparison
 ![Model F1 Score Comparison](images/model_f1_comparison.png)
 *Figure: Comparison of Weighted F1-Scores across different models.*
 
-### ⚠️ Limitations & Future Work
-- **Overfitting Risk**: Oversampling Class B by a large margin carries a high risk of overfitting to specific customer profiles.
-- **SHAP (Explainable AI)**: Future work includes implementing SHAP to explain *why* a customer is classified into a specific segment, providing actionable insights for the marketing team.
+---
+
+### Prerequisites
+```bash
+pip install -r requirements.txt
+```
+
+### Execution Pipeline
+1. **Data Analysis**: Run `src/missing_mechanism_analysis.py` to understand missing patterns.
+2. **Preprocessing**: Run `src/preprocess_missing_features.py` to apply the predictive imputation.
+3. **Training**: Run `src/train_eval_20k.py` to train the CatBoost and Stacking models.
 
 ---
 
-## 🏁 5. Conclusion & Business Impact
-The project successfully demonstrated how to handle high-dimensional big data with extreme imbalance.
-- **Outcome**: Achieved **Top 25% (58th Place)** in the competition with a validation F1-score of **0.8936**.
-- **Impact**: The advanced missing data handling techniques proved that missingness can be information, not just noise. This approach can be applied to other financial risk modeling tasks.
+## 🏁 5. Future Work & Commercial Expansion
+- **SHAP (Explainable AI)**: Implement SHAP to explain *why* a customer is classified into a specific segment, providing actionable insights for the marketing team.
+- **Cost-Sensitive Learning**: Implement custom loss functions to penalize misclassification of the rare but high-value segments (Classes A and B).
 
 ---
 
 ## 📁 Repository Structure
 ```text
-├── data/                       # Dataset files
-├── images/                     # Project screenshots and diagrams
 ├── notebooks/                  # Exploratory and experimental notebooks
 │   ├── missing_mechanism_analysis.ipynb
 │   ├── tabnet_experiments.ipynb
 │   └── train_eval_20k.ipynb
-├── reports/                    # Experiment summaries and reports
 ├── src/                        # Extracted Python scripts from notebooks
 │   ├── baseline_xgb.py
 │   ├── missing_mechanism_analysis.py
@@ -114,20 +94,15 @@ The project successfully demonstrated how to handle high-dimensional big data wi
 │   ├── scaling_log_standard.py
 │   ├── tabnet_experiments.py
 │   └── train_eval_20k.py
+├── reports/                    # Experiment summaries and reports
+│   └── 실험요약.md
+└── README.md                   # Project documentation
 ```
-
-## ⚙️ How to Run
-1. Install dependencies:
-   ```bash
-   pip install -r requirements.txt
-   ```
-2. Execute the pipeline:
-   - **Data Analysis**: `src/missing_mechanism_analysis.py`
-   - **Preprocessing**: `src/preprocess_missing_features.py`
-   - **Training**: `src/train_eval_20k.py`
 
 ## 👥 Contributors
 - **Junhyung L.** (Project Lead)
 
 ---
-*Refactored and polished to meet professional software engineering standards for the [Data Analyst Portfolio](https://github.com/junhyung-L).*
+*Refactored and polished to meet professional software engineering standards for the [Data Analyst Portfolio](https://github.com/junhyung-L/Resume/blob/main/Portfolio/README.md).*
+*Note: Statistical findings and feature importances are based on the actual competition report results.*
+
