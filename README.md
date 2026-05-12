@@ -1,7 +1,7 @@
 # 💳 Credit Card Customer Segment Classification: High-Dimensional Big Data Pipeline
 
 [![Python 3.12](https://img.shields.io/badge/python-3.12-blue.svg)](https://www.python.org/downloads/)
-[![CatBoost](https://img.shields.io/badge/CatBoost-FFCC00?style=flat&logo=catboost&logoColor=black)](https://catboost.ai/)
+[![Scikit-Learn](https://img.shields.io/badge/scikit--learn-F7931E?style=flat&logo=scikit-learn&logoColor=white)](https://scikit-learn.org/)
 [![Status](https://img.shields.io/badge/Status-Completed-success.svg)]()
 
 ## 🎯 Executive Summary
